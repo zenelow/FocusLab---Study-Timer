@@ -1,59 +1,79 @@
 const timerDisplay = document.getElementById('timer');
 const startButton = document.getElementById('start');
+const pauseButton = document.getElementById('pause');
 const resetButton = document.getElementById('reset');
 
-let timer;
-let timeLeft = 25 * 60; // 25 minutes in seconds
+let timerInterval;
+let totalSeconds = 25 * 60; // 25 minutes default
 let isRunning = false;
 
+function formatTime(seconds) {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    
+    // Format: HH:MM:SS
+    return [
+        h.toString().padStart(2, '0'),
+        m.toString().padStart(2, '0'),
+        s.toString().padStart(2, '0')
+    ].join(':');
+}
+
 function updateDisplay() {
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    timerDisplay.textContent = formatTime(totalSeconds);
 }
 
 function startTimer() {
     if (isRunning) return;
     
     isRunning = true;
-    startButton.textContent = 'Pause';
+    updateControlsState();
     
-    timer = setInterval(() => {
-        if (timeLeft > 0) {
-            timeLeft--;
+    timerInterval = setInterval(() => {
+        if (totalSeconds > 0) {
+            totalSeconds--;
             updateDisplay();
         } else {
-            clearInterval(timer);
+            clearInterval(timerInterval);
             isRunning = false;
-            startButton.textContent = 'Start';
-            alert('Time is up!');
+            updateControlsState();
+            alert('Time is up!'); // Optional: replace with a sound or visual cue later
         }
     }, 1000);
 }
 
 function pauseTimer() {
-    clearInterval(timer);
+    if (!isRunning) return;
+    
+    clearInterval(timerInterval);
     isRunning = false;
-    startButton.textContent = 'Start';
+    updateControlsState();
 }
 
 function resetTimer() {
-    clearInterval(timer);
+    clearInterval(timerInterval);
     isRunning = false;
-    timeLeft = 25 * 60;
+    totalSeconds = 25 * 60;
     updateDisplay();
-    startButton.textContent = 'Start';
+    updateControlsState();
 }
 
-startButton.addEventListener('click', () => {
+function updateControlsState() {
     if (isRunning) {
-        pauseTimer();
+        startButton.disabled = true;
+        pauseButton.disabled = false;
     } else {
-        startTimer();
+        startButton.disabled = false;
+        pauseButton.disabled = true;
     }
-});
+}
 
+// Event Listeners
+startButton.addEventListener('click', startTimer);
+pauseButton.addEventListener('click', pauseTimer);
 resetButton.addEventListener('click', resetTimer);
 
-// Initialize display
+// Initialize
 updateDisplay();
+updateControlsState();
