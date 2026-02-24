@@ -49,4 +49,11 @@ export default class Timer {
         this.remainingSeconds = this.initialSeconds;
         this.onTick(this.remainingSeconds);
     }
+
+    setDuration(seconds) {
+        this.stop();
+        this.initialSeconds = seconds;
+        this.remainingSeconds = seconds;
+        this.onTick(this.remainingSeconds);
+    }
 }

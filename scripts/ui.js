@@ -7,6 +7,7 @@ const elements = {
     startButton: document.getElementById('start'),
     pauseButton: document.getElementById('pause'),
     resetButton: document.getElementById('reset'),
+    modeButtons: document.querySelectorAll('.mode-btn'),
 };
 
 /**
@@ -50,10 +51,31 @@ export function updateControlsState(isRunning) {
 
 /**
  * Attaches event listeners to buttons.
- * @param {object} handlers - Object containing handler functions for start, pause, reset.
+ * @param {object} handlers - Object containing handler functions for start, pause, reset, modeChange.
  */
-export function bindEvents({ onStart, onPause, onReset }) {
+export function bindEvents({ onStart, onPause, onReset, onModeChange }) {
     elements.startButton.addEventListener('click', onStart);
     elements.pauseButton.addEventListener('click', onPause);
     elements.resetButton.addEventListener('click', onReset);
+    
+    elements.modeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const mode = button.dataset.mode;
+            onModeChange(mode);
+        });
+    });
+}
+
+/**
+ * Updates the active mode button in the UI.
+ * @param {string} activeMode 
+ */
+export function setActiveMode(activeMode) {
+    elements.modeButtons.forEach(button => {
+        if (button.dataset.mode === activeMode) {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+    });
 }

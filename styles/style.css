@@ -41,8 +41,39 @@ h1 {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text-secondary);
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     opacity: 0.8;
+}
+
+.modes {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.mode-btn {
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--text-secondary);
+    transition: all var(--transition-speed);
+}
+
+.mode-btn:hover {
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.mode-btn.active {
+    background-color: var(--surface-color);
+    color: var(--accent-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .timer-display {

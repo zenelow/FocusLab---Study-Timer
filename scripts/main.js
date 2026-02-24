@@ -2,11 +2,17 @@ import Timer from './timer.js';
 import * as UI from './ui.js';
 
 // Configuration
-const DEFAULT_TIME = 25 * 60; // 25 minutes in seconds
+const MODES = {
+    focus: 25 * 60,
+    short: 5 * 60,
+    long: 15 * 60
+};
+
+let currentMode = 'focus';
 
 // Initialize Timer
 const timer = new Timer(
-    DEFAULT_TIME,
+    MODES[currentMode],
     (remainingTime) => {
         UI.updateTimerDisplay(remainingTime);
     },
@@ -32,17 +38,28 @@ const handleReset = () => {
     UI.updateControlsState(false);
 };
 
+const handleModeChange = (mode) => {
+    if (currentMode === mode) return;
+    
+    currentMode = mode;
+    timer.setDuration(MODES[mode]);
+    UI.setActiveMode(mode);
+    UI.updateControlsState(false);
+};
+
 // Initialize App
 function init() {
     // Set initial display
-    UI.updateTimerDisplay(DEFAULT_TIME);
+    UI.updateTimerDisplay(MODES[currentMode]);
+    UI.setActiveMode(currentMode);
     UI.updateControlsState(false);
 
     // Bind events
     UI.bindEvents({
         onStart: handleStart,
         onPause: handlePause,
-        onReset: handleReset
+        onReset: handleReset,
+        onModeChange: handleModeChange
     });
 }
 
