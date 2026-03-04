@@ -8,7 +8,7 @@ const MODES = {
     long: 15 * 60
 };
 
-const SESSIONS_UNTIL_LONG_BREAK = 5;
+const SESSIONS_UNTIL_LONG_BREAK = 4;
 
 let currentMode = 'focus';
 let completedSessions = 0;
