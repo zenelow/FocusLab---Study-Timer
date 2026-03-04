@@ -87,5 +87,6 @@ export function setActiveMode(activeMode) {
  * @param {number} total 
  */
 export function updateSessionCounter(count, total) {
-    elements.sessionCounter.textContent = `Sessions: ${count % total}/${total}`;
+    const currentSession = (count % total) + 1;
+    elements.sessionCounter.textContent = `Session ${currentSession} / ${total}`;
 }
