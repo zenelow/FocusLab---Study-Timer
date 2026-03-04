@@ -9,6 +9,9 @@ const elements = {
     resetButton: document.getElementById('reset'),
     modeButtons: document.querySelectorAll('.mode-btn'),
     sessionCounter: document.getElementById('session-counter'),
+    modalOverlay: document.getElementById('modal-overlay'),
+    modalMessage: document.getElementById('modal-message'),
+    modalContinue: document.getElementById('modal-continue'),
 };
 
 /**
@@ -89,4 +92,20 @@ export function setActiveMode(activeMode) {
 export function updateSessionCounter(count, total) {
     const currentSession = (count % total) + 1;
     elements.sessionCounter.textContent = `Session ${currentSession} / ${total}`;
+}
+
+/**
+ * Shows the custom modal.
+ * @param {string} message 
+ */
+export function showModal(message) {
+    elements.modalMessage.textContent = message;
+    elements.modalOverlay.classList.remove('hidden');
+}
+
+/**
+ * Hides the custom modal.
+ */
+export function hideModal() {
+    elements.modalOverlay.classList.add('hidden');
 }

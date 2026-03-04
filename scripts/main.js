@@ -40,6 +40,10 @@ const handleReset = () => {
     UI.updateControlsState(false);
 };
 
+const handleContinue = () => {
+    UI.hideModal();
+};
+
 const handleModeChange = (mode) => {
     if (currentMode === mode) return;
     
@@ -66,7 +70,7 @@ const handleTimerFinish = () => {
         handleModeChange('focus');
     }
     
-    alert('Time is up!');
+    UI.showModal("Time's up! Ready to continue?");
 };
 
 // Initialize App
@@ -82,7 +86,8 @@ function init() {
         onStart: handleStart,
         onPause: handlePause,
         onReset: handleReset,
-        onModeChange: handleModeChange
+        onModeChange: handleModeChange,
+        onContinue: handleContinue
     });
 }
 
